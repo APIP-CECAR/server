@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 try {
+  mongoose.set("strictQuery", false); //para que no se muestre el error de deprecated
   //se intenta establecer una conexion con los datos de conexion
   mongoose.connect(
     "mongodb+srv://admin-cecar:fYUWdVeyDucqGlIR@cluster0.pms1jsq.mongodb.net/cecardb?retryWrites=true&w=majority",
