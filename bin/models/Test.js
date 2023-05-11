@@ -22,5 +22,4 @@ const TestSchema = new Schema({
   },
 });
 
-var Test = mongoose.model("Test", TestSchema);
-module.exports = Test;
+module.exports = mongoose.model("Test", TestSchema);

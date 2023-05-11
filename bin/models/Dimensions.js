@@ -11,3 +11,5 @@ const DimensionsSchema = new Schema({
   comparison: Object,
   clasification: Object,
 });
+
+module.exports = mongoose.model("Dimensions", DimensionsSchema);

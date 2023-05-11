@@ -19,3 +19,5 @@ const IndicatorsSchema = new Schema({
   propose: Object,
   associate: Object,
 });
+
+module.exports = mongoose.model("Indicators", IndicatorsSchema);
