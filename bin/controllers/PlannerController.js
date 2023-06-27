@@ -35,5 +35,17 @@ exports.create = (req, res) => {
 
 // Generate a plan
 exports.generate_plan = (req, res) => {
-  cecarits.generatePlan();
+  let { ids } = req.body;
+  cecarits
+    .processIds(ids)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Planner.",
+      });
+    });
+  //cecarits.generatePlan();
 };

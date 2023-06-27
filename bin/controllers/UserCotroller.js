@@ -3,6 +3,17 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 var path = require("path");
+const { error } = require("console");
+
+//Save user from test
+exports.saveUser = (newUser) =>
+  new Promise((resolve, reject) => {
+    const user = new User(newUser);
+    user
+      .save()
+      .then((user) => resolve(user))
+      .catch((error) => reject(false));
+  });
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -181,3 +192,11 @@ exports.logout = (req, res) => {
     message: "Logout",
   });
 };
+
+// find user by username
+exports.findUserByUsername = (name, surname) =>
+  new Promise((resolve, reject) =>
+    User.findOne({ name, surname })
+      .then((user) => resolve(user))
+      .catch((error) => reject(error))
+  );
