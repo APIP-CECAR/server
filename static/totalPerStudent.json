@@ -189,9 +189,8 @@
                     "horaFin" : "11:00",
                     "fecha": "2022-02-28"
                 }
-            }]
-   
-        }],
+            }]   
+        }],        
         "1123003" : [{
             "nombre": "Maria",
             "apellido": "Gomez",
@@ -438,8 +437,7 @@
                                },
                                  "puntaje": 6,
                                  "percentil": "superior"
-                            },
-                    
+                            },                  
                             "reflexionar": {
                                 "preguntas": {
                                     "p1" : 0,

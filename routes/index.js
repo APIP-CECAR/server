@@ -20,6 +20,9 @@ module.exports = (app) => {
   const planner = require("./planner")(app);
   // Import routes History
   const history = require("./history")(app);
+  // Import routes Test
+  const test = require("./test")(app);
+
   // Upload files
   app.post("/upload", upload.single("file"), (req, res) => {
     const file = req.file;

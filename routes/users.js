@@ -1,5 +1,5 @@
 const validateAuth = require("../middleware/auth");
-const UserController = require("../bin/controllers/User.cotroller");
+const UserController = require("../bin/controllers/UserCotroller");
 module.exports = (app) => {
   // Create a new User
   app.post("/users", UserController.create);
@@ -7,7 +7,7 @@ module.exports = (app) => {
   // Retrieve all Users
   app.get("/users", validateAuth, UserController.findAll);
 
-  // Retrieve a single User with userId
+  // Retrieve a single User with userId24e
   app.get("/users/:userId", UserController.findOne);
 
   // Update a User with userId
