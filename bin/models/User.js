@@ -14,6 +14,12 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  plans: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Plan",
+    },
+  ],
   test: {
     type: Schema.Types.ObjectId,
     ref: "Test",
