@@ -1,0 +1,26 @@
+(define (domain critical-thinking-planner)
+        (:requirements :strips :fluents :typing  :negative-preconditions :adl)
+        (:types student cognitive-process)
+        (:predicates 
+            (precondition ?cp1  ?cp2 - cognitive-process)
+            (achieved-process ?s - student ?p - cognitive-process) 
+        )
+        (:functions
+                (learning-path-cost)
+                (learning-path-reward) 
+                (cost-progress-to ?from ?to -cognitive-process)  
+                (reward-progress-to ?from ?to -cognitive-process)
+        )
+        (:action learning-progress
+                :parameters(?x -student ?from ?to -cognitive-process)
+                :precondition (and 
+                                   (precondition  ?from ?to) 
+                                   (achieved-process  ?x ?from)  
+                                   (not  (achieved-process  ?x ?to))
+                               )
+                :effect (and (achieved-process ?x ?to)
+                             (increase (learning-path-reward) (reward-progress-to ?from ?to))
+                             (increase (learning-path-cost) (cost-progress-to ?from ?to))
+                        ) 
+        )
+ ) 

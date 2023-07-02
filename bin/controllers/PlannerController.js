@@ -47,5 +47,4 @@ exports.generate_plan = (req, res) => {
           err.message || "Some error occurred while creating the Planner.",
       });
     });
-  //cecarits.generatePlan();
 };
