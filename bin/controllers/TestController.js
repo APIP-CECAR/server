@@ -156,7 +156,6 @@ exports.consumeData = (req, res) => {
             usersIds.push(newUser._id);
             saveTests(tests, newUser._id)
               .then(() => cbStudents())
-              .catch((err) => res.send(err))
               .catch((err) => res.send(err));
           });
         } else {
@@ -168,7 +167,7 @@ exports.consumeData = (req, res) => {
       if (error) {
         res.status(500).json({ error: "Error al consumir los datos." });
       } else {
-        res.status(200).send({ usersIds });
+        res.status(200).send({ usersIds, studentsIsSaved: true });
       }
     }
   );

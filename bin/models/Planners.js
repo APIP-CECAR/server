@@ -7,6 +7,10 @@ const PlannerSchema = new Schema({
   description: String,
   domain: String,
   plan: String,
+  history: {
+    type: Schema.Types.ObjectId,
+    ref: "History",
+  },
 });
 
 module.exports = mongoose.model("Planner", PlannerSchema);

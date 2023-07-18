@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 const strips = require("strips");
 const path = require("path");
 const async = require("async");
@@ -9,21 +11,22 @@ const fs = require("fs");
 const axios = require("axios");
 
 // geneate plan by ids students
-exports.processIds = (ids, res) =>
+exports.processIds = (ids, history) =>
   new Promise((resolve, reject) => {
+    console.log("Pass history", history);
     Test.find({ id_user: { $in: ids } })
       .populate({ path: "id_user", select: "name surname _id" })
       .populate("indicators")
       .populate("dimensions")
       .then((tests) => {
-        proccesTests(tests).then((idsPlan) => resolve(idsPlan));
+        proccesTests(tests, history).then((idsPlan) => resolve(idsPlan));
       })
       .catch((err) => {
-        reject(res.status(500).send({ err }));
+        reject({ err });
       });
   });
 
-const proccesTests = (tests) =>
+const proccesTests = (tests, history) =>
   new Promise((resolve, reject) => {
     let statusIds = [];
     // Procesar cada test de forma asíncrona
@@ -96,7 +99,7 @@ const proccesTests = (tests) =>
           reject(err);
           return;
         }
-        proccesStatusByPlan(statusIds).then((plans) => {
+        proccesStatusByPlan(statusIds, history).then((plans) => {
           resolve(plans);
         });
       }
@@ -146,7 +149,7 @@ function processRes(obj) {
   return element;
 }
 
-const proccesStatusByPlan = (idsSatatus) =>
+const proccesStatusByPlan = (idsSatatus, history) =>
   new Promise((resolve, reject) => {
     let objects = "";
     let init = "";
@@ -170,7 +173,7 @@ const proccesStatusByPlan = (idsSatatus) =>
             reject(err);
           }
 
-          generatePlan(objects, init, goal)
+          generatePlan(objects, init, goal, history)
             .then((plan) => {
               resolve(plan);
             })
@@ -248,7 +251,7 @@ function generateTemplate(objects, init, goal) {
 )`;
 }
 
-const generatePlan = (objects, init, goal) =>
+const generatePlan = (objects, init, goal, history) =>
   new Promise((resolve, reject) => {
     let problemTemplate = generateTemplate(objects, init, goal);
     fs.writeFile(
@@ -277,21 +280,9 @@ const generatePlan = (objects, init, goal) =>
         axios
           .post(url, data, { headers: { "Content-Type": contentType } })
           .then((response) => {
-            getPlansForUsers(response.data.result.plan)
+            getPlansForUsers(response.data.result.plan, history)
               .then((message) => resolve(message))
               .catch((err) => reject(err));
-            // resolve(response.data);
-            /**
-             * const students = data.reduce((result, item) => {
-                const matches = item.name.match(/(student_[a-f0-9]+)/);
-                if (matches) {
-                  const studentId = matches[1];
-                  result[studentId] = item;
-                }
-                return result;
-              }, {});
-
-             */
           })
           .catch((error) => {
             reject(error.response.data);
@@ -300,10 +291,9 @@ const generatePlan = (objects, init, goal) =>
     );
   });
 
-const getPlansForUsers = (plans) =>
+const getPlansForUsers = (plans, history) =>
   new Promise(async (resolve, reject) => {
     let message = "";
-    console.log(plans);
     const students = plans.reduce((result, item) => {
       const matches = item.name.match(/(student_[a-f0-9]+)/);
       if (matches) {
@@ -317,17 +307,23 @@ const getPlansForUsers = (plans) =>
     }, {});
 
     try {
+      let data = [];
       for (const studentId in students) {
         const studentPlans = students[studentId];
-        await storePlanInUser(studentId, studentPlans);
+        await data.push(storePlanInUser(studentId, studentPlans, history));
       }
+      message = {
+        message: "Planes generados correctamente",
+        data,
+        isPlanner: true,
+      };
       resolve(message);
     } catch (error) {
       reject(error);
     }
   });
 
-async function storePlanInUser(userId, studentPlans) {
+async function storePlanInUser(userId, studentPlans, history) {
   try {
     userId = userId.split("_")[1];
     // Actualizar la propiedad isPlanning en el usuario a true
@@ -336,17 +332,15 @@ async function storePlanInUser(userId, studentPlans) {
     // Recorrer el objeto de estudiantes con el plan
     for (const studentId in studentPlans) {
       const studentPlanList = studentPlans[studentId];
-      console.log(typeof studentPlanList, studentPlanList);
-      // Recorrer la lista de planes del estudiante
-      //for (const studentPlan of studentPlanList) {
-      // Crear un nuevo objeto Plan con los datos proporcionados
+      console.log("History", history);
       const newPlan = new Planners({
         name: studentPlanList.name,
         plan: studentPlanList.action,
+        history: ObjectId(history),
       });
 
       // Guardar el nuevo plan en la base de datos
-      const savedPlan = await newPlan.save();
+      let savedPlan = await newPlan.save();
 
       // Agregar el ID del plan a la propiedad plans del usuario
       await User.findByIdAndUpdate(
@@ -359,7 +353,7 @@ async function storePlanInUser(userId, studentPlans) {
 
     // Obtener el usuario actualizado
     const updatedUser = await User.findById(userId);
-    console.log(updatedUser);
+    return { user: userId };
     // Aquí puedes realizar las operaciones necesarias con el usuario actualizado
   } catch (error) {
     console.error(error);
