@@ -1,5 +1,8 @@
 const Planner = require("../models/Planners");
+const User = require("../models/User");
+const History = require("../models/History");
 const cecarits = require("../apis/cecarits");
+const interpreter = require("../apis/cecarits/interpreter");
 
 // Create and Save a new Planner
 exports.create = (req, res) => {
@@ -35,9 +38,9 @@ exports.create = (req, res) => {
 
 // Generate a plan
 exports.generate_plan = (req, res) => {
-  let { ids } = req.body;
+  let { ids, history } = req.body;
   cecarits
-    .processIds(ids)
+    .processIds(ids, history)
     .then((data) => {
       res.send(data);
     })
@@ -48,3 +51,71 @@ exports.generate_plan = (req, res) => {
       });
     });
 };
+
+// get al plans
+exports.findAll = (req, res) => {
+  Planner.find()
+    .then((planners) => {
+      res.send("plannners", planners);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving plans.",
+      });
+    });
+};
+
+// get plan by Ids
+exports.findOneById = (req, res) => {
+  Planner.findById(req.params.plannerId)
+    .then((planner) => {
+      if (!planner) {
+        return res.status(404).send({
+          message: "Planner not found with id " + req.params.plannerId,
+        });
+      }
+      res.send(planner);
+    })
+    .catch((err) => {
+      if (err.kind === "ObjectId") {
+        return res.status(404).send({
+          message: "Planner not found with id " + req.params.plannerId,
+        });
+      }
+      return res.status(500).send({
+        message: "Error retrieving planner with id " + req.params.plannerId,
+      });
+    });
+};
+
+// get all students planned isPlanning
+exports.findStudentsPlanned = (req, res) => {
+  User.find({ isPlanning: true })
+    .select("_id name surname")
+    .populate({
+      path: "plans",
+      populate: {
+        path: "history",
+        select: "name",
+      },
+    })
+    .then((students) => {
+      let plans = interpreter(translatePlans(students));
+      res.send({ students, plans });
+    })
+    .catch((err) =>
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving users.",
+      })
+    );
+};
+
+// translate Plans to actions
+function translatePlans(students) {
+  // process students to translate plans interpreter
+  let plans = [];
+  students.forEach(
+    (student) => (plans = plans.concat(student.plans.map((p) => p.plan)))
+  );
+  return plans;
+}

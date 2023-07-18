@@ -1,7 +1,7 @@
 (define (problem critical-thinking-pleanner)
   (:domain critical-thinking-planner)
   (:objects
-    student_64a1af9e0a2d6df531e554ba student_64a1af9f0a2d6df531e554c4 student_64a1af9f0a2d6df531e554ce  -student
+    student_64a5a3acc243ba7fb529a4bd student_64a5a3adc243ba7fb529a4c7 student_64a5a3aec243ba7fb529a4d1  -student
 	  n0ct n1obs01 n1obs02 n1obs03
     n1com01 n1com02 n1com03 
     n1cla01 n1cla02 n1cla03
@@ -24,9 +24,9 @@
 		(precondition n1com01 n1cla02)
 		(precondition n1com01 n1cla03)
 		
-		(achieved-process student_64a1af9e0a2d6df531e554ba n0ct)
-		(achieved-process student_64a1af9f0a2d6df531e554c4 n0ct)
-		(achieved-process student_64a1af9f0a2d6df531e554ce n0ct)
+		(achieved-process student_64a5a3acc243ba7fb529a4bd n0ct)
+		(achieved-process student_64a5a3adc243ba7fb529a4c7 n0ct)
+		(achieved-process student_64a5a3aec243ba7fb529a4d1 n0ct)
 		
 							
 		(= (reward-progress-to n0ct n1obs01) 1)
@@ -61,9 +61,9 @@
     (= (learning-path-reward)  0)  
 	)
 	(:goal
-		(and (achieved-process student_64a1af9e0a2d6df531e554ba n1cla03)
-		(achieved-process student_64a1af9f0a2d6df531e554c4 n1cla03)
-		(achieved-process student_64a1af9f0a2d6df531e554ce n1cla03)
+		(and (achieved-process student_64a5a3acc243ba7fb529a4bd n1cla03)
+		(achieved-process student_64a5a3adc243ba7fb529a4c7 n1cla03)
+		(achieved-process student_64a5a3aec243ba7fb529a4d1 n1cla03)
 		
 		)
 	)

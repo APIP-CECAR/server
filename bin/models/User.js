@@ -17,7 +17,7 @@ const UserSchema = new Schema({
   plans: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Plan",
+      ref: "Planner",
     },
   ],
   test: {
