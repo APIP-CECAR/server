@@ -163,8 +163,15 @@ const proccesStatusByPlan = (idsSatatus, history) =>
         statuses,
         (status, index, callback) => {
           objects += `student_${status.student.toString()} `;
+          // process status to add index by function
+          /*   
+          init += generateLevelString(status.observation);
+          init += generateLevelString(status.comparison);
+          init += generateLevelString(status.clasification);
+          init += generateLevelString(status.description);
+          */
           init += `(achieved-process student_${status.student.toString()} n0ct)\n\t\t`;
-          goal += `(achieved-process student_${status.student.toString()} n1cla03)\n\t\t`;
+          goal += `(achieved-process student_${status.student.toString()} n1cla3)\n\t\t`;
           callback();
         },
         (err) => {
@@ -188,57 +195,57 @@ function generateTemplate(objects, init, goal) {
   (:domain critical-thinking-planner)
   (:objects
     ${objects} -student
-	  n0ct n1obs01 n1obs02 n1obs03
-    n1com01 n1com02 n1com03 
-    n1cla01 n1cla02 n1cla03
-    n1des01 n1des02 n1des03 - cognitive-process
+	  n0ct n1obs1 n1obs2 n1obs3
+    n1com1 n1com2 n1com3 
+    n1cla1 n1cla2 n1cla3
+    n1des1 n1des2 n1des3 - cognitive-process
 	)
 	(:init		
-		(precondition n0ct n1obs01)
-		(precondition n0ct n1obs02)
-		(precondition n0ct n1obs03)
+		(precondition n0ct n1obs1)
+		(precondition n0ct n1obs2)
+		(precondition n0ct n1obs3)
 		
-		(precondition n1obs01 n1com01)
-		(precondition n1obs01 n1com02)
-		(precondition n1obs01 n1com03)
+		(precondition n1obs1 n1com1)
+		(precondition n1obs1 n1com2)
+		(precondition n1obs1 n1com3)
 		
-		(precondition n1obs02 n1com01)
-		(precondition n1obs02 n1com02)
-		(precondition n1obs02 n1com03)
+		(precondition n1obs2 n1com1)
+		(precondition n1obs2 n1com2)
+		(precondition n1obs2 n1com3)
 		
-		(precondition n1com01 n1cla01)
-		(precondition n1com01 n1cla02)
-		(precondition n1com01 n1cla03)
+		(precondition n1com1 n1cla1)
+		(precondition n1com1 n1cla2)
+		(precondition n1com1 n1cla3)
 		
 		${init}
 							
-		(= (reward-progress-to n0ct n1obs01) 1)
-    (= (reward-progress-to n0ct n1obs02) 2) 
-    (= (reward-progress-to n0ct n1obs03) 1)
+		(= (reward-progress-to n0ct n1obs1) 1)
+    (= (reward-progress-to n0ct n1obs2) 2) 
+    (= (reward-progress-to n0ct n1obs3) 1)
         
-    (= (reward-progress-to n1obs01 n1com01) 1)
-    (= (reward-progress-to n1obs01 n1com02) 1) 
-    (= (reward-progress-to n1obs01 n1com03) 1)
+    (= (reward-progress-to n1obs1 n1com1) 1)
+    (= (reward-progress-to n1obs1 n1com2) 1) 
+    (= (reward-progress-to n1obs1 n1com3) 1)
 
-    (= (reward-progress-to n1obs02 n1com01) 2)
-    (= (reward-progress-to n1obs02 n1com02) 2) 
-    (= (reward-progress-to n1obs02 n1com03) 2)
+    (= (reward-progress-to n1obs2 n1com1) 2)
+    (= (reward-progress-to n1obs2 n1com2) 2) 
+    (= (reward-progress-to n1obs2 n1com3) 2)
         
-    (= (reward-progress-to n1com01 n1cla01) 1)
-    (= (reward-progress-to n1com01 n1cla02) 1) 
-    (= (reward-progress-to n1com01 n1cla03) 1)
+    (= (reward-progress-to n1com1 n1cla1) 1)
+    (= (reward-progress-to n1com1 n1cla2) 1) 
+    (= (reward-progress-to n1com1 n1cla3) 1)
 
-    (= (cost-progress-to n0ct n1obs01) 1)
-    (= (cost-progress-to n0ct n1obs02) 1) 
-    (= (cost-progress-to n0ct n1obs03) 1)
+    (= (cost-progress-to n0ct n1obs1) 1)
+    (= (cost-progress-to n0ct n1obs2) 1) 
+    (= (cost-progress-to n0ct n1obs3) 1)
 
-    (= (cost-progress-to n1obs01 n1com01) 1)
-    (= (cost-progress-to n1obs01 n1com02) 1) 
-    (= (cost-progress-to n1obs01 n1com03) 1)    
+    (= (cost-progress-to n1obs1 n1com1) 1)
+    (= (cost-progress-to n1obs1 n1com2) 1) 
+    (= (cost-progress-to n1obs1 n1com3) 1)    
         
-    (= (cost-progress-to n1com01 n1cla01) 1)
-    (= (cost-progress-to n1com01 n1cla02) 1) 
-    (= (cost-progress-to n1com01 n1cla03) 1)
+    (= (cost-progress-to n1com1 n1cla1) 1)
+    (= (cost-progress-to n1com1 n1cla2) 1) 
+    (= (cost-progress-to n1com1 n1cla3) 1)
         
     (= (learning-path-cost) 0)
     (= (learning-path-reward)  0)  
@@ -249,6 +256,18 @@ function generateTemplate(objects, init, goal) {
 	)
 	(:metric maximize(learning-path-reward))
 )`;
+}
+
+function generateLevelString(levels) {
+  let levelString = "";
+
+  for (const [competence, level] of Object.entries(levels)) {
+    if (level) {
+      levelString += `(achieved-process student_${status.student.toString()} ${level})\n\t\t`;
+    }
+  }
+
+  return levelString;
 }
 
 const generatePlan = (objects, init, goal, history) =>

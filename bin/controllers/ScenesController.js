@@ -11,14 +11,9 @@ exports.create = (req, res) => {
     });
   }
 
-  let { name, description, domain, problem } = req.body;
   // Create a Scenes
-  let scenes = new Scenes({
-    name,
-    description,
-    domain,
-    problem,
-  });
+  console.log("Scene", req.body);
+  let scenes = new Scenes(req.body);
 
   // Save Scenes in the database
   scenes
@@ -48,7 +43,7 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single Scenes with a scenesId
-exports.findOne = (req, res) => {
+exports.findOneById = (req, res) => {
   Scenes.findById(req.params.scenesId)
     .then((scenes) => {
       if (!scenes) {

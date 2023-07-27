@@ -21,4 +21,7 @@ module.exports = (app) => {
 
   // Logout user
   app.post("/logout", UserController.logout);
+
+  // Get status user
+  app.get("/students/:studentId/status/", UserController.getStatus);
 };

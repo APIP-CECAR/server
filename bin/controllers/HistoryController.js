@@ -50,19 +50,19 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
+  console.log(req.body);
   // Validate request
-  if (!req.body.name) {
+  if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
 
   // Create a History
-  const history = new History({
-    name: req.body.name,
-    date: req.body.date,
-  });
+  const history = req.body;
 
-  History.findByIdAndUpdate(req.params.id, history, { useFindAndModify: false })
+  History.findByIdAndUpdate(history._id, history, {
+    useFindAndModify: false,
+  })
     .then((data) => {
       if (!data) {
         res.status(404).send({
