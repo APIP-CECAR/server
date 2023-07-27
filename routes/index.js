@@ -3,7 +3,11 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../files/uploads/"));
+    if (file.originalname.endsWith(".h5p")) {
+      cb(null, path.join(__dirname, "../files/h5p/"));
+    } else {
+      cb(null, path.join(__dirname, "../files/uploads/"));
+    }
   },
   filename: function (req, file, cb) {
     // cb(null, `${Date.now()}-${file.originalname}`);
@@ -22,6 +26,10 @@ module.exports = (app) => {
   const history = require("./history")(app);
   // Import routes Test
   const test = require("./test")(app);
+  // Import Scenes
+  const scenes = require("./scenes")(app);
+  // Import ActivitiesH5P
+  const activitiesH5P = require("./activitiesH5P")(app);
 
   // Upload files
   app.post("/upload", upload.single("file"), (req, res) => {

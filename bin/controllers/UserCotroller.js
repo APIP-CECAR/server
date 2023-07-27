@@ -1,9 +1,9 @@
 const User = require("../models/User");
+const Status = require("../models/Status");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 var path = require("path");
-const { error } = require("console");
 
 //Save user from test
 exports.saveUser = (newUser) =>
@@ -190,6 +190,18 @@ exports.login = (req, res) => {
 exports.logout = (req, res) => {
   res.status(200).send({
     message: "Logout",
+  });
+};
+
+// Get status of students
+exports.getStatus = (req, res) => {
+  let student = req.params.studentId;
+  Status.findOne({ student }, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving status.",
+      });
+    else res.send(data);
   });
 };
 

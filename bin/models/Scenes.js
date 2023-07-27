@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ScenesSchema = new Schema({
   title: String,
   background: String,
-  hiper_objects: {}, // Pensa convertir en array.
+  hiper_objects: [],
   level: String,
   competence: String,
   skill: String,

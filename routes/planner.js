@@ -3,6 +3,8 @@ const PlannerController = require("../bin/controllers/PlannerController");
 module.exports = (app) => {
   // Retrieve students planed
   app.get("/planner/students", PlannerController.findStudentsPlanned);
+  // Retrieve student plan
+  app.get("/planner/student/:idStudent", PlannerController.findStudentPlan);
   // Create a new Planner
   app.post("/planner", PlannerController.create);
   // Create a new Planner

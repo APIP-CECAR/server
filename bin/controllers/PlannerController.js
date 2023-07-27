@@ -110,6 +110,28 @@ exports.findStudentsPlanned = (req, res) => {
     );
 };
 
+exports.findStudentPlan = (req, res) => {
+  console.log(req.params.idStudent);
+  User.findById(req.params.idStudent)
+    .select("_id name surname")
+    .populate({
+      path: "plans",
+      populate: {
+        path: "history",
+        select: "name",
+      },
+    })
+    .then((student) => {
+      let plans = interpreter(translatePlans([student]));
+      res.send({ student, plans });
+    })
+    .catch((err) =>
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving users.",
+      })
+    );
+};
+
 // translate Plans to actions
 function translatePlans(students) {
   // process students to translate plans interpreter
