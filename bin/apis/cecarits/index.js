@@ -13,7 +13,7 @@ const axios = require("axios");
 // geneate plan by ids students
 exports.processIds = (ids, history) =>
   new Promise((resolve, reject) => {
-    console.log("Pass history", history);
+    // console.log("Pass history", history);
     Test.find({ id_user: { $in: ids } })
       .populate({ path: "id_user", select: "name surname _id" })
       .populate("indicators")
@@ -351,7 +351,7 @@ async function storePlanInUser(userId, studentPlans, history) {
     // Recorrer el objeto de estudiantes con el plan
     for (const studentId in studentPlans) {
       const studentPlanList = studentPlans[studentId];
-      console.log("History", history);
+      // console.log("History", history);
       const newPlan = new Planners({
         name: studentPlanList.name,
         plan: studentPlanList.action,

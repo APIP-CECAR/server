@@ -11,7 +11,7 @@ try {
     }
   );
   //en caso de esablecer la conexion, se muestra en consola este mensaje
-  console.log("Connected databases.");
+  // console.log("Connected databases.");
 } catch (e) {
   //en caso de haber un error se muestra en consola el error
   console.error(e);

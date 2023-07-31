@@ -12,7 +12,7 @@ exports.create = (req, res) => {
   }
 
   // Create a Scenes
-  console.log("Scene", req.body);
+  // zconsole.log("Scene", req.body);
   let scenes = new Scenes(req.body);
 
   // Save Scenes in the database
