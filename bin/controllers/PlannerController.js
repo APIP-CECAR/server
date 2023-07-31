@@ -111,7 +111,7 @@ exports.findStudentsPlanned = (req, res) => {
 };
 
 exports.findStudentPlan = (req, res) => {
-  console.log(req.params.idStudent);
+  // console.log(req.params.idStudent);
   User.findById(req.params.idStudent)
     .select("_id name surname")
     .populate({

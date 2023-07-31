@@ -25,6 +25,8 @@ exports.create = (req, res) => {
   }
 
   let { username, email, password, role } = req.body;
+
+  password = password || generateRandomPassword(16);
   // Create a User
   let user = new User({
     username,
@@ -188,9 +190,50 @@ exports.login = (req, res) => {
 
 // Logout
 exports.logout = (req, res) => {
-  res.status(200).send({
-    message: "Logout",
-  });
+  let authorization = req.headers["authorization"];
+  if (!authorization) {
+    res.status(403).json({ message: "No token provided" });
+  } else {
+    let token = authorization.split(" ")[1];
+    jwt.sign(token, "", { expiresIn: 1 }, (logout, err) => {
+      if (logout) {
+        res.send({ msg: "You have been Logged Out" });
+      } else {
+        res.send({ msg: "Error" });
+      }
+    });
+  }
+};
+
+// Get user
+exports.user = (req, res) => {
+  let bearerHeader = req.headers["authorization"];
+  if (!bearerHeader) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  const bearer = bearerHeader.split(" ");
+  const token = bearer[1];
+
+  fs.readFile(
+    path.join(__dirname, "../keys/public.key"),
+    "utf8",
+    (err, privateKey) => {
+      if (err) {
+        console.error("Error reading private key:", err);
+        return res.status(500).json({ message: "Failed to verify token" });
+      }
+
+      jwt.verify(token, privateKey, (err, user) => {
+        if (err) {
+          console.error("Error verifying token:", err);
+          return res.status(401).json({ message: "Invalid token" });
+        } else {
+          res.status(200).json({ user });
+        }
+      });
+    }
+  );
 };
 
 // Get status of students
@@ -212,3 +255,44 @@ exports.findUserByUsername = (name, surname) =>
       .then((user) => resolve(user))
       .catch((error) => reject(error))
   );
+
+exports.generate = (req, res) => {
+  // Obtener la cadena de la contraseña desde el cuerpo de la solicitud
+  const passwordToHash = req.body.password;
+
+  // Generar el salt para el algoritmo bcrypt
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) {
+      return res.status(500).send({
+        message: "Error generating salt.",
+      });
+    }
+
+    // Hash de la contraseña
+    bcrypt.hash(passwordToHash, salt, function (err, hash) {
+      if (err) {
+        return res.status(500).send({
+          message: "Error generating password hash.",
+        });
+      }
+
+      // Devolver el hash de la contraseña
+      res.send({
+        hashedPassword: hash,
+      });
+    });
+  });
+};
+
+function generateRandomPassword(length) {
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_";
+  let password = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+
+  return password;
+}

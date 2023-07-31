@@ -52,19 +52,17 @@ function interpretActions(plan) {
     const match = action.action.match(regex);
     if (match) {
       const actionName = match[2];
-      console.log(`Action Name: ${actionName}`);
-      console.log("Parameters:");
       action.action.split("\n").forEach((line) => {
         if (line.includes(":parameters")) {
           const parameters = line.split("(")[1].split(")")[0].split(" ");
           parameters.forEach((parameter) => {
             if (parameter !== "") {
-              console.log(`- ${parameter}`);
+              // console.log(`- ${parameter}`);
             }
           });
         }
       });
-      console.log("Preconditions:");
+
       action.action.split("\n").forEach((line) => {
         if (line.includes("(and")) {
           const preconditions = line
@@ -73,7 +71,7 @@ function interpretActions(plan) {
             .split("\n");
           preconditions.forEach((precondition) => {
             if (precondition !== "") {
-              console.log(`- ${precondition.trim()}`);
+              // console.log(`- ${precondition.trim()}`);
             }
           });
         }
@@ -84,12 +82,12 @@ function interpretActions(plan) {
           const effects = line.split("(and ")[1].split(")")[0].split("\n");
           effects.forEach((effect) => {
             if (effect !== "") {
-              console.log(`- ${effect.trim()}`);
+              // console.log(`- ${effect.trim()}`);
             }
           });
         }
       });
-      console.log("--------------------------------");
+      // console.log("--------------------------------");
     }
   });
 }

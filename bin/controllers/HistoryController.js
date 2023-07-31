@@ -50,7 +50,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   // Validate request
   if (!req.body) {
     res.status(400).send({ message: "Content can not be empty!" });

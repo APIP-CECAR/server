@@ -1,69 +1,69 @@
 (define (problem critical-thinking-pleanner)
   (:domain critical-thinking-planner)
   (:objects
-    student_64a5a3acc243ba7fb529a4bd student_64a5a3adc243ba7fb529a4c7 student_64a5a3aec243ba7fb529a4d1  -student
-	  n0ct n1obs01 n1obs02 n1obs03
-    n1com01 n1com02 n1com03 
-    n1cla01 n1cla02 n1cla03
-    n1des01 n1des02 n1des03 - cognitive-process
+    student_64c3adbe946ef773280014b3 student_64c3adbf946ef773280014bd student_64c3adbf946ef773280014c7  -student
+	  n0ct n1obs1 n1obs2 n1obs3
+    n1com1 n1com2 n1com3 
+    n1cla1 n1cla2 n1cla3
+    n1des1 n1des2 n1des3 - cognitive-process
 	)
 	(:init		
-		(precondition n0ct n1obs01)
-		(precondition n0ct n1obs02)
-		(precondition n0ct n1obs03)
+		(precondition n0ct n1obs1)
+		(precondition n0ct n1obs2)
+		(precondition n0ct n1obs3)
 		
-		(precondition n1obs01 n1com01)
-		(precondition n1obs01 n1com02)
-		(precondition n1obs01 n1com03)
+		(precondition n1obs1 n1com1)
+		(precondition n1obs1 n1com2)
+		(precondition n1obs1 n1com3)
 		
-		(precondition n1obs02 n1com01)
-		(precondition n1obs02 n1com02)
-		(precondition n1obs02 n1com03)
+		(precondition n1obs2 n1com1)
+		(precondition n1obs2 n1com2)
+		(precondition n1obs2 n1com3)
 		
-		(precondition n1com01 n1cla01)
-		(precondition n1com01 n1cla02)
-		(precondition n1com01 n1cla03)
+		(precondition n1com1 n1cla1)
+		(precondition n1com1 n1cla2)
+		(precondition n1com1 n1cla3)
 		
-		(achieved-process student_64a5a3acc243ba7fb529a4bd n0ct)
-		(achieved-process student_64a5a3adc243ba7fb529a4c7 n0ct)
-		(achieved-process student_64a5a3aec243ba7fb529a4d1 n0ct)
+		(achieved-process student_64c3adbe946ef773280014b3 n0ct)
+		(achieved-process student_64c3adbf946ef773280014bd n0ct)
+		(achieved-process student_64c3adbf946ef773280014c7 n0ct)
 		
 							
-		(= (reward-progress-to n0ct n1obs01) 1)
-    (= (reward-progress-to n0ct n1obs02) 2) 
-    (= (reward-progress-to n0ct n1obs03) 1)
+		(= (reward-progress-to n0ct n1obs1) 1)
+    (= (reward-progress-to n0ct n1obs2) 2) 
+    (= (reward-progress-to n0ct n1obs3) 1)
         
-    (= (reward-progress-to n1obs01 n1com01) 1)
-    (= (reward-progress-to n1obs01 n1com02) 1) 
-    (= (reward-progress-to n1obs01 n1com03) 1)
+    (= (reward-progress-to n1obs1 n1com1) 1)
+    (= (reward-progress-to n1obs1 n1com2) 1) 
+    (= (reward-progress-to n1obs1 n1com3) 1)
 
-    (= (reward-progress-to n1obs02 n1com01) 2)
-    (= (reward-progress-to n1obs02 n1com02) 2) 
-    (= (reward-progress-to n1obs02 n1com03) 2)
+    (= (reward-progress-to n1obs2 n1com1) 2)
+    (= (reward-progress-to n1obs2 n1com2) 2) 
+    (= (reward-progress-to n1obs2 n1com3) 2)
         
-    (= (reward-progress-to n1com01 n1cla01) 1)
-    (= (reward-progress-to n1com01 n1cla02) 1) 
-    (= (reward-progress-to n1com01 n1cla03) 1)
+    (= (reward-progress-to n1com1 n1cla1) 1)
+    (= (reward-progress-to n1com1 n1cla2) 1) 
+    (= (reward-progress-to n1com1 n1cla3) 1)
 
-    (= (cost-progress-to n0ct n1obs01) 1)
-    (= (cost-progress-to n0ct n1obs02) 1) 
-    (= (cost-progress-to n0ct n1obs03) 1)
+    (= (cost-progress-to n0ct n1obs1) 1)
+    (= (cost-progress-to n0ct n1obs2) 1) 
+    (= (cost-progress-to n0ct n1obs3) 1)
 
-    (= (cost-progress-to n1obs01 n1com01) 1)
-    (= (cost-progress-to n1obs01 n1com02) 1) 
-    (= (cost-progress-to n1obs01 n1com03) 1)    
+    (= (cost-progress-to n1obs1 n1com1) 1)
+    (= (cost-progress-to n1obs1 n1com2) 1) 
+    (= (cost-progress-to n1obs1 n1com3) 1)    
         
-    (= (cost-progress-to n1com01 n1cla01) 1)
-    (= (cost-progress-to n1com01 n1cla02) 1) 
-    (= (cost-progress-to n1com01 n1cla03) 1)
+    (= (cost-progress-to n1com1 n1cla1) 1)
+    (= (cost-progress-to n1com1 n1cla2) 1) 
+    (= (cost-progress-to n1com1 n1cla3) 1)
         
     (= (learning-path-cost) 0)
     (= (learning-path-reward)  0)  
 	)
 	(:goal
-		(and (achieved-process student_64a5a3acc243ba7fb529a4bd n1cla03)
-		(achieved-process student_64a5a3adc243ba7fb529a4c7 n1cla03)
-		(achieved-process student_64a5a3aec243ba7fb529a4d1 n1cla03)
+		(and (achieved-process student_64c3adbe946ef773280014b3 n1cla3)
+		(achieved-process student_64c3adbf946ef773280014bd n1cla3)
+		(achieved-process student_64c3adbf946ef773280014c7 n1cla3)
 		
 		)
 	)
