@@ -6,10 +6,11 @@ const Indicators = require("../models/Indicators");
 const Dimensions = require("../models/Dimensions");
 const User = require("../models/User");
 
-const { saveUser, findUserByUsername } = require("./UserCotroller");
+const { saveUser, findByIdentification } = require("./UserCotroller");
 const async = require("async");
 const fs = require("fs");
-const test = require("../../routes/test");
+const path = require("path");
+const test = require("../../routes/studentTesting");
 
 const regex = /^(user)?(\w{4})$/;
 
@@ -128,21 +129,22 @@ exports.delete = (req, res) => {
 exports.consumeData = (req, res) => {
   const { file, name } = req.body;
   const students = file.estudiantes["0"];
+  console.log(students);
   const usersIds = [];
 
   async.eachSeries(
     Object.keys(students),
     (studentData, cbStudents) => {
       const student = students[studentData][0];
-      let { nombre, apellido } = student;
 
-      findUserByUsername(nombre, apellido).then((user) => {
+      findByIdentification(studentData).then((user) => {
         if (!user) {
           // Guardar usuario
           const tests = Object.values(student.tests[0]);
           test.name = name;
 
           saveUser({
+            identification: studentData,
             username: student.usuario
               ? student.usuario
               : generateRandomUsername(),
@@ -198,6 +200,23 @@ exports.getAllStudentsUnplanning = (req, res) => {
     .catch((err) => {
       res.status(500).send({ err });
     });
+};
+
+exports.validateTest = (req, res) => {
+  // Construir la ruta absoluta al archivo totalPerStudent.json
+  const filePath = path.join(__dirname, "../../static/totalPerStudent.json");
+
+  fs.readFile(filePath, "utf8", function (err, data) {
+    if (err) {
+      res.status(500).send({ err });
+    }
+    try {
+      const jsonData = JSON.parse(data);
+      res.status(200).json(jsonData);
+    } catch (error) {
+      res.status(500).send({ error: "Error al parsear el archivo JSON" });
+    }
+  });
 };
 
 const saveTests = (tests, studentId) =>

@@ -1,0 +1,198 @@
+{
+    "estudiantes": [{
+        "234456675": [{
+            "nombre": "Estudiante",
+            "apellido": "Prueba",
+            "username":"student",
+            "edad": 20,
+            "carrera": "Ingenieria de Sistemas",
+            "password":"sY6NvBtYwD",
+            "tests": [{
+                "0": {
+                    "nombre": "Test PC-B",
+                    "valoracion": 43,
+                    "puntajeVariables": [{
+                        "indicadores": {
+                            "identificar": {
+                                "preguntas": {
+                                    "p1": 1,
+                                    "p2": 0,
+                                    "p3": 0
+                                },
+                                "puntaje": 1,
+                                "percentil": "insatisfactorio"
+                            },
+                            "dar_a_conocer": {
+                                "preguntas": {
+                                    "p1": 0,
+                                    "p2": 2,
+                                    "p3": 2
+                                },
+                                "puntaje": 4,
+                                "percentil": "satisfactorio"
+                            },
+                            "detectar": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 0,
+                                    "p3": 0
+                                },
+                                "puntaje": 2,
+                                "percentil": "insatisfactorio"
+                            },
+                            "analizar": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 0,
+                                    "p3": 2
+                                },
+                                "puntaje": 4,
+                                "percentil": "satisfactorio"
+                            },
+                            "listar": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 2,
+                                    "p3": 2
+                                },
+                                "puntaje": 6,
+                                "percentil": "superior"
+                            },
+                    
+                            "reflexionar": {
+                                "preguntas": {
+                                    "p1": 0,
+                                    "p2": 2,
+                                    "p3": 0
+                                },
+                                "puntaje": 2,
+                                "percentil": "insatisfactorio"
+                            },
+                            "definir": {
+                                "preguntas": {
+                                    "p1": 0,
+                                    "p2": 0,
+                                    "p3": 2
+                                },
+                                "puntaje": 2,
+                                "percentil": "insatisfactorio"
+                            },
+                            "relacionar": {
+                                "preguntas": {
+                                    "p1": 0,
+                                    "p2": 2,
+                                    "p3": 0
+                                },
+                                "puntaje": 2,
+                                "percentil": "insatisfactorio"
+                            },
+                            "difereciar": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 2,
+                                    "p3": 2
+                                },
+                                "puntaje": 6,
+                                "percentil": "superior"
+                            },
+                            "caracterizar": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 2,
+                                    "p3": 0
+                                },
+                                "puntaje": 4,
+                                "percentil": "satisfactorio"
+                            },
+                            "proponer": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 0,
+                                    "p3": 2
+                                },
+                                "puntaje": 4,
+                                "percentil": "satisfactorio"
+                            },
+                            "asociar": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 2,
+                                    "p3": 2
+                                },
+                                "puntaje": 6,
+                                "percentil": "superior"
+                            }
+                        },
+                        "dimensiones": {
+                            "observacion": {
+                                "preguntas": {
+                                    "p1": 1,
+                                    "p2": 0,
+                                    "p3": 0,
+                                    "p4": 0,
+                                    "p5": 2,
+                                    "p6": 2,
+                                    "p7": 2,
+                                    "p8": 0,
+                                    "p9": 0
+                                },
+                                "puntaje": 7,
+                                "percentil": "satisfactorio"
+                            },
+                            "descripcion": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 0,
+                                    "p3": 2,
+                                    "p4": 2,
+                                    "p5": 2,
+                                    "p6": 2,
+                                    "p7": 2,
+                                    "p8": 2,
+                                    "p9": 0
+                                },
+                                "puntaje": 14,
+                                "percentil": "superior"
+                            },
+                            "comparacion": {
+                                "preguntas": {
+                                    "p1": 0,
+                                    "p2": 0,
+                                    "p3": 2,
+                                    "p4": 0,
+                                    "p5": 2,
+                                    "p6": 0,
+                                    "p7": 2,
+                                    "p8": 2,
+                                    "p9": 2
+                                },
+                                "puntaje": 10,
+                                "percentil": "satisfactorio"
+                            },
+                            "clasificacion": {
+                                "preguntas": {
+                                    "p1": 2,
+                                    "p2": 2,
+                                    "p3": 0,
+                                    "p4": 2,
+                                    "p5": 0,
+                                    "p6": 2,
+                                    "p7": 2,
+                                    "p8": 2,
+                                    "p9": 2
+                                },
+                                "puntaje": 14,
+                                "percentil": "superior"
+                            }
+                        }
+                    }],
+                    "percentil": "satisfactorio",
+                    "horaInicio": "10:00",
+                    "horaFin": "11:00",
+                    "fecha": "2022-02-28"
+                }
+            }]
+        }]
+    }]
+}
+        

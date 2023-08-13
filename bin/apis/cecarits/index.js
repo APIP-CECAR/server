@@ -163,6 +163,26 @@ const proccesStatusByPlan = (idsSatatus, history) =>
         statuses,
         (status, index, callback) => {
           objects += `student_${status.student.toString()} `;
+
+          // get student
+          let student = `student_${status.student.toString()} `;
+          // process status to add index by function
+          // Se debe definir que estado es el inicial para el proceso de planificación.
+          // Se inicia en orden inverso para poder tener el estado mas bajo aprobado
+          /*
+          init = generateLevelString(status.description, student);
+          init = generateLevelString(status.clasification, student);
+          init = generateLevelString(status.comparison, student);
+          init = generateLevelString(status.observation, student);
+          */
+
+          //Iniciacion en estado cero
+          init += `(achieved-process student_${status.student.toString()} n0ct)\n\t\t`;
+          goal += `(achieved-process student_${status.student.toString()} n1cla3)\n\t\t`;
+          callback();
+
+          /*
+          objects += `student_${status.student.toString()} `;
           // process status to add index by function
           /*   
           init += generateLevelString(status.observation);
@@ -170,9 +190,9 @@ const proccesStatusByPlan = (idsSatatus, history) =>
           init += generateLevelString(status.clasification);
           init += generateLevelString(status.description);
           */
-          init += `(achieved-process student_${status.student.toString()} n0ct)\n\t\t`;
+          /*init += `(achieved-process student_${status.student.toString()} n0ct)\n\t\t`;
           goal += `(achieved-process student_${status.student.toString()} n1cla3)\n\t\t`;
-          callback();
+          callback();*/
         },
         (err) => {
           if (err) {
@@ -258,12 +278,13 @@ function generateTemplate(objects, init, goal) {
 )`;
 }
 
-function generateLevelString(levels) {
+function generateLevelString(levels, student) {
   let levelString = "";
 
   for (const [competence, level] of Object.entries(levels)) {
     if (level) {
-      levelString += `(achieved-process student_${status.student.toString()} ${level})\n\t\t`;
+      levelString += `(achieved-process ${student} ${competence})\n\t\t`;
+      // init += `(achieved-process student_${status.student.toString()} n0ct)\n\t\t`;
     }
   }
 
@@ -299,9 +320,18 @@ const generatePlan = (objects, init, goal, history) =>
         axios
           .post(url, data, { headers: { "Content-Type": contentType } })
           .then((response) => {
-            getPlansForUsers(response.data.result.plan, history)
-              .then((message) => resolve(message))
-              .catch((err) => reject(err));
+            console.log("plan", response.data.status);
+            if (response.data.status != "error") {
+              getPlansForUsers(response.data.result.plan, history)
+                .then((message) => resolve(message))
+                .catch((err) => reject(err));
+            } else {
+              resolve({
+                output: response.data.output,
+                message: "Error al intentar crear un plan",
+                isPlanner: false,
+              });
+            }
           })
           .catch((error) => {
             reject(error.response.data);

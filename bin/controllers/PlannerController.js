@@ -39,6 +39,7 @@ exports.create = (req, res) => {
 // Generate a plan
 exports.generate_plan = (req, res) => {
   let { ids, history } = req.body;
+  console.log(ids, history);
   cecarits
     .processIds(ids, history)
     .then((data) => {
@@ -100,8 +101,12 @@ exports.findStudentsPlanned = (req, res) => {
       },
     })
     .then((students) => {
-      let plans = interpreter(translatePlans(students));
-      res.send({ students, plans });
+      if (students.length > 0) {
+        let plans = interpreter(translatePlans(students));
+        res.send({ students, plans });
+      } else {
+        res.send([]);
+      }
     })
     .catch((err) =>
       res.status(500).send({

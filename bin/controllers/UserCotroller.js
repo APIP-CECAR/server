@@ -16,12 +16,13 @@ exports.saveUser = (newUser) =>
   });
 
 // Create and Save a new User
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
+    return;
   }
 
   let { username, email, password, role } = req.body;
@@ -35,27 +36,21 @@ exports.create = (req, res) => {
     role,
   });
 
-  // Hash password before saving in database
-  bcrypt.genSalt(10, function (err, salt) {
-    // To hash the password
-    bcrypt.hash(user.password, salt, function (err, hash) {
-      if (err) throw err;
-      // Set password to hashed
-      user.password = hash;
-      // Save User in the database
-      user
-        .save()
-        .then((data) => {
-          res.send(data);
-        })
-        .catch((err) => {
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while creating the User.",
-          });
-        });
+  try {
+    // Generate salt
+    const salt = await bcrypt.genSalt(10);
+    // Hash password
+    const hash = await bcrypt.hash(user.password, salt);
+    // Set password to hashed
+    user.password = hash;
+    // Save User in the database
+    const data = await user.save();
+    res.send(data);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the User.",
     });
-  });
+  }
 };
 
 // Retrieve all Users from the database.
@@ -123,7 +118,7 @@ exports.delete = (req, res) => {
           message: "Could not delete User with id " + req.params.userId,
         });
       }
-    } else res.send({ message: `User was deleted successfully!` });
+    } else res.send({ message: `User deleted successfully` });
   });
 };
 
@@ -253,6 +248,14 @@ exports.findUserByUsername = (name, surname) =>
   new Promise((resolve, reject) =>
     User.findOne({ name, surname })
       .then((user) => resolve(user))
+      .catch((error) => reject(error))
+  );
+
+exports.findByIdentification = (identification) =>
+  new Promise((resolve, reject) =>
+    User.findOne({ identification })
+      .exec()
+      .then((student) => resolve(student))
       .catch((error) => reject(error))
   );
 

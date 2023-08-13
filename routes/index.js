@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     if (file.originalname.endsWith(".h5p")) {
       cb(null, path.join(__dirname, "../files/h5p/"));
     } else {
-      cb(null, path.join(__dirname, "../files/uploads/"));
+      cb(null, path.join(__dirname, "../files/multimedia/"));
     }
   },
   filename: function (req, file, cb) {
@@ -32,15 +32,27 @@ module.exports = (app) => {
   // Import routes History
   const history = require("./history")(app);
   // Import routes Test
-  const test = require("./test")(app);
+  const test = require("./studentTesting")(app);
   // Import Scenes
   const scenes = require("./scenes")(app);
   // Import ActivitiesH5P
   const activitiesH5P = require("./activitiesH5P")(app);
 
+  // home
+  app.get("/", (req, res) => {
+    const responseData = {
+      message: "API CECAR",
+      timestamp: new Date().toISOString(),
+    };
+
+    // Enviar la respuesta JSON al cliente
+    res.status(200).json(responseData);
+  });
+
   // Upload files
   app.post("/upload", upload.single("file"), (req, res) => {
     const file = req.file;
+
     if (!file) {
       const error = new Error("Please upload a file");
       error.httpStatusCode = 400;
@@ -101,6 +113,7 @@ module.exports = (app) => {
       res.send(data);
     } else {
       res.status(400).send("El archivo subido no es un archivo H5P válido.");
+      return;
     }
   });
 };

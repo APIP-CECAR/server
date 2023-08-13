@@ -4,6 +4,8 @@ building web and mobile applications. */
 const express = require("express");
 const app = express();
 const port = 5000;
+//
+require("dotenv").config();
 
 // Import Middleware
 require("./middleware")(app);
@@ -13,5 +15,9 @@ require("./bin/database");
 // Import routes
 require("./routes/index")(app);
 
-// server
-app.listen(port, () => console.log(`CECAR app listening on port ${port}!`));
+module.exports = app;
+
+if (require.main === module) {
+  // server
+  app.listen(port, () => console.log(`CECAR app listening on port ${port}!`));
+}

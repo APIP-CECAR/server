@@ -4,14 +4,17 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
 
+const URL_CLIENT = process.env.URL_CLIENT;
+const PORT_CLIENT = process.env.PORT_CLIENT;
 module.exports = (app) => {
   // Middleware
+  let port = PORT_CLIENT ? `:${PORT_CLIENT}` : "";
   const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: `${URL_CLIENT}${port}`,
     credentials: true,
   };
 
-  let uploadsFolder = path.join(__dirname, "../", "files/uploads");
+  let multimediaFolder = path.join(__dirname, "../", "files/multimedia");
   let h5pFolder = path.join(__dirname, "../", "files/h5p");
 
   app.use(cors(corsOptions));
@@ -19,7 +22,7 @@ module.exports = (app) => {
   app.use(express.urlencoded({ limit: "25mb", extended: true }));
 
   app.use(express.static("public"));
-  app.use("/uploads", express.static(uploadsFolder));
+  app.use("/multimedia", express.static(multimediaFolder));
   app.use("/h5p", express.static(h5pFolder));
 
   app.use(bodyParser.json());
